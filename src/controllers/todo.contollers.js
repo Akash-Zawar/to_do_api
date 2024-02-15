@@ -6,6 +6,19 @@ const todos = [
   },
 ];
 
+const getTodo = (req, res) => {
+  res.json(todos);
+};
+
+const getTodoById = (req, res) => {
+  const id = parseInt(req.params.id);
+  const todo = todos.find((t) => t.id === id);
+  if (!todo) {
+    return res.status(404).json({ error: "todo not found" });
+  }
+  res.json(todo);
+};
+
 const createTodo = (req, res) => {
   const todo = {
     id: todos.length + 1,
@@ -14,10 +27,6 @@ const createTodo = (req, res) => {
   };
   todos.push(todo);
   res.status(201).json(todo);
-};
-
-const getTodo = (req, res) => {
-  res.json(todos);
 };
 
 const updateTodo = (req, res) => {
@@ -42,8 +51,9 @@ const deleteTodo = (req, res) => {
 };
 
 module.exports = {
-  createTodo,
   getTodo,
+  getTodoById,
+  createTodo,
   updateTodo,
   deleteTodo,
 };
